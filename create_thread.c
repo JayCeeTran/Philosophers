@@ -31,10 +31,12 @@ void	*routine(void *arg)
 	t_phil *phil;
 
 	phil = (t_phil*)arg;
-	while(phil->meals < phil->data->must_eat || phil->data->must_eat == -1)
+	while(phil->meals < phil->data->must_eat && phil->data->dead == 0)
 	{
 		picking_forks(phil);
+		check_dead(phil);
 		sleeping(phil);
+		check_dead(phil);
 		thinking(phil);
 	}
 	return(NULL);

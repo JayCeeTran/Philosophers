@@ -15,6 +15,7 @@ typedef struct s_data{
 	int ms_eat;
 	int ms_sleep;
 	int must_eat;
+	_Atomic int dead;
 	pthread_mutex_t *forks;
 } t_data;
 
@@ -43,6 +44,8 @@ void    picking_forks(t_phil *phils);
 void    eating(t_phil *phils);
 void    thinking(t_phil *phils);
 void    sleeping(t_phil *phils);
+void    check_dead(t_phil *phils);
+void    dead(t_phil *phils, long otime);
 /**
 ***		ERROR MSGS!!!
 **/

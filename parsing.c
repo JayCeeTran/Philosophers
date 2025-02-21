@@ -16,6 +16,7 @@ int	save_arguments_in_struct(t_data *data, char **av)
 	data->ms_eat = ft_atoi(av[3]);
 	data->ms_sleep = ft_atoi(av[4]);
 	data->must_eat = ft_atoi(av[5]);
+	data->dead = 0;
 	printf("%d	%d	%d	%d\n", data->philos, data->ms_die, data->ms_eat, data->ms_sleep);	
 	return(1);
 }

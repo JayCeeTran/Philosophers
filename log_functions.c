@@ -29,6 +29,7 @@ void	picking_forks(t_phil *phils)
 		pthread_mutex_lock(phils->left);
 		printf("%ld Philosopher:%d picked up left fork\n", time, phils->id);
 	}
+	dead(phils, time);
 	eating(phils);
 	pthread_mutex_unlock(phils->left);
 	pthread_mutex_unlock(phils->right);

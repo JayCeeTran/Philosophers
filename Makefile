@@ -3,8 +3,9 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 
 SRCS = philo.c \
+	create_thread.c \
 	error_msg.c \
-	destroy_mutex_left_right.c \
+	dead.c \
 	ft_atoi.c \
 	initialize_phils.c \
 	log_functions.c \
@@ -13,7 +14,7 @@ SRCS = philo.c \
 
 OBJ = $(SRCS:.c=.o)
 EXE = philo
-RM = rm -r
+RM = rm -f
 
 all: $(EXE)
 
