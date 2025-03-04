@@ -34,10 +34,14 @@ void	*routine(void *arg)
 	while(phil->meals < phil->data->must_eat && phil->data->dead == 0)
 	{
 		picking_forks(phil);
-		check_dead(phil);
+		if(!check_dead(phil))
+			break;
 		sleeping(phil);
-		check_dead(phil);
+		if(!check_dead(phil))
+			break;
 		thinking(phil);
+		if(!check_dead(phil))
+			break;
 	}
 	return(NULL);
 }

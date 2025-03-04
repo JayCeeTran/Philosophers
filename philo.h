@@ -44,7 +44,7 @@ void    picking_forks(t_phil *phils);
 void    eating(t_phil *phils);
 void    thinking(t_phil *phils);
 void    sleeping(t_phil *phils);
-void    check_dead(t_phil *phils);
+void    *check_dead(t_phil *phils);
 void    dead(t_phil *phils, long otime);
 /**
 ***		ERROR MSGS!!!

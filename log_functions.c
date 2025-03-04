@@ -15,6 +15,10 @@ void	picking_forks(t_phil *phils)
 	long time;
 
 	time = get_time();
+	if(!check_dead(phils))
+	{
+			return ;
+	}
 	if(phils->id % 2 == 1)
 	{	
 		pthread_mutex_lock(phils->left);
@@ -29,7 +33,19 @@ void	picking_forks(t_phil *phils)
 		pthread_mutex_lock(phils->left);
 		printf("%ld Philosopher:%d picked up left fork\n", time, phils->id);
 	}
+	if(!check_dead(phils))
+	{
+		pthread_mutex_unlock(phils->left);
+		pthread_mutex_unlock(phils->right);
+			return ;
+	}
 	dead(phils, time);
+	if(!check_dead(phils))
+	{
+		pthread_mutex_unlock(phils->left);
+		pthread_mutex_unlock(phils->right);
+			return ;
+	}
 	eating(phils);
 	pthread_mutex_unlock(phils->left);
 	pthread_mutex_unlock(phils->right);

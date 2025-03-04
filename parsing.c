@@ -52,7 +52,7 @@ static int	validate_av(char *s)
 			return(0);
 		i++;
 	}
-	if(val == 0)
+	if(val < 0)
 		return(0);
 	return(1);
 }
