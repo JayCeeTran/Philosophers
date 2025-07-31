@@ -15,9 +15,16 @@ int	save_arguments_in_struct(t_data *data, char **av)
 	data->ms_die = ft_atoi(av[2]);
 	data->ms_eat = ft_atoi(av[3]);
 	data->ms_sleep = ft_atoi(av[4]);
-	data->must_eat = ft_atoi(av[5]);
+	if(av[5])
+		data->must_eat = ft_atoi(av[5]);
+	else
+		data->must_eat = -1;
 	data->dead = 0;
-	printf("%d	%d	%d	%d\n", data->philos, data->ms_die, data->ms_eat, data->ms_sleep);	
+	data->created = 0;
+	data->start = 0;
+	data->rounds = 1;
+	data->phils_eaten = 0;
+	data->who_running = 1;	
 	return(1);
 }
 

@@ -10,7 +10,8 @@ SRCS = philo.c \
 	initialize_phils.c \
 	log_functions.c \
 	parsing.c \
-
+	rotate_queue.c \
+	mutex_unlock.c \
 
 OBJ = $(SRCS:.c=.o)
 EXE = philo
@@ -23,12 +24,11 @@ $(EXE): $(NAME)
 
 $(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)
-	make clean
 
 clean:
 	$(RM) $(OBJ)
 
-fclean:
+fclean: clean
 	$(RM) $(NAME) $(EXE)
 
 re: fclean all

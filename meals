@@ -1,0 +1,36 @@
+log_functions.c:22:	if(phils->id % 2 == 1)
+log_functions.c:24:		pthread_mutex_lock(phils->left);
+log_functions.c:25:		printf("%ld Philosopher:%d picked up left fork\n", time, phils->id); //get time on everything?
+log_functions.c:26:		pthread_mutex_lock(phils->right);
+log_functions.c:27:		printf("%ld Philosopher:%d picked up right fork\n", get_time(), phils->id);
+log_functions.c:29:	else if(phils->id % 2 == 0)
+log_functions.c:31:		pthread_mutex_lock(phils->right);
+log_functions.c:32:		printf("%ld Philosopher:%d picked up right fork\n", time, phils->id);
+log_functions.c:33:		pthread_mutex_lock(phils->left);
+log_functions.c:34:		printf("%ld Philosopher:%d picked up left fork\n", time, phils->id);
+log_functions.c:38:		pthread_mutex_unlock(phils->left);
+log_functions.c:39:		pthread_mutex_unlock(phils->right);
+log_functions.c:45:		pthread_mutex_unlock(phils->left);
+log_functions.c:46:		pthread_mutex_unlock(phils->right);
+log_functions.c:50:	pthread_mutex_unlock(phils->left);
+log_functions.c:51:	pthread_mutex_unlock(phils->right);
+log_functions.c:56:	phils->meals++;
+log_functions.c:57:	phils->last_meal_time = get_time();
+log_functions.c:58:	printf("%ld Philosopher:%d is eating\n", phils->last_meal_time, phils->id);
+log_functions.c:59:	usleep(phils->data->ms_eat * 1000);
+log_functions.c:67:	printf("%ld Philosopher:%d is thinking\n", time, phils->id);
+log_functions.c:75:	printf("%ld Philosopher:%d is sleeping\n", time, phils->id);
+log_functions.c:76:	usleep(phils->data->ms_sleep);
+create_thread.c:81:	create_queue(phils->data);
+create_thread.c:82:	create_ran_array(phils->data);
+create_thread.c:83:	while(i < phils->data->philos)
+create_thread.c:92:			destroy_mutexes(phils->data->philos, phils->data->forks);
+dead.c:18:    if(phils->last_meal_time != 0)
+dead.c:20:        if(time - phils->last_meal_time > phils->data->ms_die)
+dead.c:22:            printf("dead guy %d\n", phils->id);
+dead.c:23:            phils->data->dead = 1;
+dead.c:27:    /*else if(time - otime > phils->data->ms_die)
+dead.c:29:            printf("dead guy %d\n", phils->id);
+dead.c:30:            phils->data->dead = 1;
+dead.c:37:    if(phils->data->dead == 1)
+dead.c:39:        printf("%d someone died\n", phils->id);

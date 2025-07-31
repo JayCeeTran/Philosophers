@@ -15,7 +15,15 @@ typedef struct s_data{
 	int ms_eat;
 	int ms_sleep;
 	int must_eat;
+	int *queue;
+	_Atomic int created;
+	_Atomic int who_running;
+	_Atomic int rounds;
+	long start_time;
+	volatile int start;
+	_Atomic int phils_eaten;
 	_Atomic int dead;
+	pthread_mutex_t *print;
 	pthread_mutex_t *forks;
 } t_data;
 
@@ -23,7 +31,9 @@ typedef struct s_phil{
 	int id;
 	long last_meal_time;
 	int meals;
+	int round;
 	pthread_t thread;
+	pthread_mutex_t *print;
 	pthread_mutex_t *left;
 	pthread_mutex_t *right;
 	t_data *data;
@@ -36,15 +46,18 @@ int		initialize_phils(t_data *data);
 void	destroy_mutexes(int i, pthread_mutex_t *forks);
 void	*routine(void *arg);
 int create_thread(t_phil *phils);
+void	rotate_queue(t_data *data);
+void	unlock(t_phil *phils);
 /**
 ***		LOG FUNCTIONS
 **/
-long    get_time(void);
-void    picking_forks(t_phil *phils);
+long    get_time(long start_time);
+long	get_start_time(void);
+int    picking_forks(t_phil *phils, long start_time);
 void    eating(t_phil *phils);
 void    thinking(t_phil *phils);
 void    sleeping(t_phil *phils);
-void    *check_dead(t_phil *phils);
+int     check_dead(t_phil *phils);
 void    dead(t_phil *phils, long otime);
 /**
 ***		ERROR MSGS!!!

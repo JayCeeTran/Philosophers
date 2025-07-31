@@ -17,12 +17,17 @@ int initialize_phils(t_data *data)
 		return(0);
 	if(!create_thread(phils))
 		return(0);
+	free(phils);
+	free(data->queue);
 	return(1);
 }
 
 static int	fill_phils(t_phil *phils, t_data *data, int i, int j)
 {
 	data->forks = malloc(data->philos * sizeof(pthread_mutex_t));
+	data->print = malloc(sizeof(pthread_mutex_t));
+	if(pthread_mutex_init(data->print, NULL))
+		return(0);
 	while(j < data->philos)
 	{
 		if(pthread_mutex_init(&data->forks[j], NULL))
@@ -39,8 +44,15 @@ static int	fill_phils(t_phil *phils, t_data *data, int i, int j)
 		phils[i].id = i + 1;
 		phils[i].last_meal_time = 0;
 		phils[i].meals = 0;
+		phils[i].round = 0;
 		phils[i].data = data;
 		phils[i].left = &data->forks[i];
+		phils[i].print = data->print;
+		if(data->philos == 1)
+		{
+			phils[i].right = NULL;
+			break;
+		}
 		phils[i].right = &data->forks[(i + 1) % data->philos];
 		i++;
 	}
