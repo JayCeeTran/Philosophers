@@ -13,8 +13,5 @@ int	main(int ac, char **av)
 		return(1);
 	if(!initialize_phils(&data))
 		return(1);
-	destroy_mutexes(data.philos, data.forks);
-	pthread_mutex_destroy(data.print);
-	free(data.print);
 	return(0);
 }

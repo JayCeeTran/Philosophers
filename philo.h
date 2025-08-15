@@ -19,10 +19,10 @@ typedef struct s_data{
 	_Atomic int created;
 	_Atomic int who_running;
 	_Atomic int rounds;
-	long start_time;
-	volatile int start;
 	_Atomic int phils_eaten;
 	_Atomic int dead;
+	volatile int start;
+	long start_time;
 	pthread_mutex_t *print;
 	pthread_mutex_t *forks;
 } t_data;
@@ -53,7 +53,7 @@ void	unlock(t_phil *phils);
 **/
 long    get_time(long start_time);
 long	get_start_time(void);
-int    picking_forks(t_phil *phils, long start_time);
+int	picking_forks(t_phil *phils, long start_time);
 void    eating(t_phil *phils);
 void    thinking(t_phil *phils);
 void    sleeping(t_phil *phils);

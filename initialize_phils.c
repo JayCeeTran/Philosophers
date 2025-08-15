@@ -17,6 +17,9 @@ int initialize_phils(t_data *data)
 		return(0);
 	if(!create_thread(phils))
 		return(0);
+	destroy_mutexes(data->philos, data->forks);
+	pthread_mutex_destroy(data->print);
+	free(data->print);
 	free(phils);
 	free(data->queue);
 	return(1);
@@ -24,10 +27,17 @@ int initialize_phils(t_data *data)
 
 static int	fill_phils(t_phil *phils, t_data *data, int i, int j)
 {
-	data->forks = malloc(data->philos * sizeof(pthread_mutex_t));
 	data->print = malloc(sizeof(pthread_mutex_t));
-	if(pthread_mutex_init(data->print, NULL))
+	if(!data->print)
+		return(0);	//free everything if fails cleanly
+	if(pthread_mutex_init(data->print, NULL)) // -||-
 		return(0);
+	data->forks = malloc(data->philos * sizeof(pthread_mutex_t));
+	if(!data->forks)
+	{
+		free(data->print);	// -||-
+		return(0);
+	}
 	while(j < data->philos)
 	{
 		if(pthread_mutex_init(&data->forks[j], NULL))
