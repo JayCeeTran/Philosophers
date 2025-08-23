@@ -3,6 +3,7 @@
 static int	extra_loop(char *s, int *i, long long *val);
 static int	validate_av(char *s);
 static int	validate_arguments(char **av);
+static int	no_zero(t_data *data);
 
 int	save_arguments_in_struct(t_data *data, char **av)
 {
@@ -19,13 +20,27 @@ int	save_arguments_in_struct(t_data *data, char **av)
 		data->must_eat = ft_atoi(av[5]);
 	else
 		data->must_eat = -1;
+	if(!no_zero(data))
+	{
+		invalid_argument();
+		return(0);
+	}
 	data->dead = 0;
 	data->created = 0;
 	data->start = 0;
 	data->rounds = 1;
 	data->phils_eaten = 0;
-	data->who_running = 1;	
+	data->who_running = 1;
+	data->start_time = 0;	
 	return(1);
+}
+
+static int	no_zero(t_data *data)
+{
+	if(!data->philos || !data->ms_die || !data->ms_eat || !data->ms_sleep || !data->must_eat)
+		return(0);
+	else
+		return(1);
 }
 
 static int	validate_arguments(char **av)

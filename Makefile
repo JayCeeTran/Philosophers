@@ -10,7 +10,7 @@ SRCS = philo.c \
 	initialize_phils.c \
 	log_functions.c \
 	parsing.c \
-	rotate_queue.c \
+	routine.c \
 	mutex_unlock.c \
 
 OBJ = $(SRCS:.c=.o)

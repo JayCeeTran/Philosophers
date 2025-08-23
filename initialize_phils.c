@@ -21,7 +21,7 @@ int initialize_phils(t_data *data)
 	pthread_mutex_destroy(data->print);
 	free(data->print);
 	free(phils);
-	free(data->queue);
+//	free(data->queue);
 	return(1);
 }
 
@@ -54,10 +54,10 @@ static int	fill_phils(t_phil *phils, t_data *data, int i, int j)
 		phils[i].id = i + 1;
 		phils[i].last_meal_time = 0;
 		phils[i].meals = 0;
-		phils[i].round = 0;
+//		phils[i].round = 0;
+		phils[i].print = data->print;
 		phils[i].data = data;
 		phils[i].left = &data->forks[i];
-		phils[i].print = data->print;
 		if(data->philos == 1)
 		{
 			phils[i].right = NULL;

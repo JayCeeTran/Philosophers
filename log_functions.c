@@ -30,62 +30,62 @@ void	phil_1_die(t_phil *phils)
 		time = get_time(phils->data->start_time);
 		usleep(10);
 	}
-	printf("Philosopher 1 died. Time of death %ld\n", time);
+	printf("%ld 1 died\n", time);
 	phils->data->dead = 1;
 }
 
 int	picking_forks(t_phil *phils, long start_time)
 {
 	long time;
+	int quit;
 
+	quit = 0;
 	time = get_time(start_time);
-	if(!check_dead(phils))
-	{
-			return (0);;
-	}
 	if(phils->id % 2 == 1)
 	{	
 		pthread_mutex_lock(phils->left);
-		printf("%ld Philosopher:%d picked up left fork\n", time, phils->id); //get time on everything?
+		printf("%ld %d has taken a fork\n", time, phils->id); //get time on everything?
 		if(!phils->right)
 		{
 			phil_1_die(phils);
 			return(0);
 		}
 		pthread_mutex_lock(phils->right);
-		printf("%ld Philosopher:%d picked up right fork\n", time, phils->id);
+		printf("%ld %d has taken a fork\n", time, phils->id);
 	}
 	else if(phils->id % 2 == 0)
 	{
 		pthread_mutex_lock(phils->right);
-		printf("%ld Philosopher:%d picked up right fork\n", time, phils->id);
+		printf("%ld %d has taken a fork\n", time, phils->id);
 		pthread_mutex_lock(phils->left);
-		printf("%ld Philosopher:%d picked up left fork\n", time, phils->id);
+		printf("%ld %d has taken a fork\n", time, phils->id);
 	}
 	if(!check_dead(phils))
 	{
 		unlock(phils);
 		return (0);
 	}
-	pthread_mutex_lock(phils->print);
-	dead(phils, start_time);
-	pthread_mutex_unlock(phils->print);
-	if(!check_dead(phils))
-	{
-		unlock(phils);	
-		return (0);
-	}
-	eating(phils);
+	if(dead(phils, start_time))
+		return(0);
+	quit = eating(phils, phils->data->ms_eat);
 	unlock(phils);
+	if(!quit)
+		return(0);
 	return(1);
 }
 
-void	eating(t_phil *phils)
+int	eating(t_phil *phils, int duration)
 {
 	phils->meals++;
 	phils->last_meal_time = get_time(phils->data->start_time);
-	printf("%ld Philosopher:%d is eating\n", phils->last_meal_time, phils->id);
-	usleep(phils->data->ms_eat * 1000);
+	printf("%ld %d is eating\n", phils->last_meal_time, phils->id);
+	while(get_time(phils->data->start_time) - phils->last_meal_time < duration)
+	{	
+		usleep(100);
+		if(!check_dead(phils))
+			return (0);
+	}
+	return(1);
 }
 
 void	thinking(t_phil *phils)
@@ -93,15 +93,20 @@ void	thinking(t_phil *phils)
 	long time;
 
 	time = get_time(phils->data->start_time);
-	printf("%ld Philosopher:%d is thinking\n", time, phils->id);
-	//usleep(10);
+	printf("%ld %d is thinking\n", time, phils->id);
 }
 
-void	sleeping(t_phil *phils)
+int	sleeping(t_phil *phils, int duration)
 {
 	long time;
 
 	time = get_time(phils->data->start_time);
-	printf("%ld Philosopher:%d is sleeping\n", time, phils->id);
-	usleep(phils->data->ms_sleep);
+	printf("%ld %d is sleeping\n", time, phils->id);
+	while(get_time(phils->data->start_time) - time < duration)
+	{
+		usleep(100);
+		if(!check_dead(phils))
+			return (0);
+	}
+	return(1);
 }
