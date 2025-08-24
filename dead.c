@@ -6,11 +6,21 @@
 /*   By: jtran <jtran@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 14:02:11 by jtran             #+#    #+#             */
-/*   Updated: 2025/03/04 11:00:19 by jtran            ###   ########.fr       */
+/*   Updated: 2025/08/24 13:22:29 by jtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	print_mutex(t_phil *phils, long time, char *s)
+{
+	pthread_mutex_lock(phils->print);
+	if(phils->data->dead == 0)
+	{
+		printf("%ld %d %s\n", time, phils->id, s);
+	}
+	pthread_mutex_unlock(phils->print);
+}
 
 int   dead(t_phil *phils, long start_time)
 {
@@ -21,19 +31,15 @@ int   dead(t_phil *phils, long start_time)
     {
         if(time - phils->last_meal_time > phils->data->ms_die)
         {
-	    pthread_mutex_lock(phils->print);
-            printf("%ld %d died\n", time, phils->id);
-	    pthread_mutex_unlock(phils->print);
+	    print_mutex(phils, time, "died");
             phils->data->dead = 1;
 	    return(1);
         }
     }
     else if(time > phils->data->ms_die)
     {
-	   pthread_mutex_lock(phils->print);
-           printf("%ld %d died\\n", time, phils->id);
-	   pthread_mutex_unlock(phils->print);
-           phils->data->dead = 1;
+	   print_mutex(phils, time, "died");
+	   phils->data->dead = 1;
 	   return(1);
     }
     return(0);
@@ -43,10 +49,7 @@ int   check_dead(t_phil *phils)
 {
     if(phils->data->dead == 1)
     {
-//	pthread_mutex_lock(phils->print);        
-  //      printf("Phil %d noticed someone died. Time of notice: %ld\n", phils->id, get_time(phils->data->start_time));
-//	pthread_mutex_unlock(phils->print);
-        return(0);
+        return(1);
     }
-    return(1);
+    return(0);
 }

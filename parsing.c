@@ -29,8 +29,6 @@ int	save_arguments_in_struct(t_data *data, char **av)
 	data->created = 0;
 	data->start = 0;
 	data->rounds = 1;
-	data->phils_eaten = 0;
-	data->who_running = 1;
 	data->start_time = 0;	
 	return(1);
 }
