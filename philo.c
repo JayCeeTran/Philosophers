@@ -17,8 +17,7 @@ int	main(int ac, char **av)
 	}
 	if(!save_arguments_in_struct(data, av))
 		return(1);
-	if(!initialize_phils(data))
-		return(1);
+	initialize_phils(data);
 	free(data);
 	return(0);
 }

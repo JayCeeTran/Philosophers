@@ -12,14 +12,12 @@ int	save_arguments_in_struct(t_data *data, char **av)
 		invalid_argument();
 		return(0);
 	}
-	data->philos = ft_atoi(av[1]);
-	data->ms_die = ft_atoi(av[2]);
-	data->ms_eat = ft_atoi(av[3]);
-	data->ms_sleep = ft_atoi(av[4]);
-	if(av[5])
-		data->must_eat = ft_atoi(av[5]);
-	else
-		data->must_eat = -1;
+	atoi_arguments(data, av);
+	if(data->philos > 400)
+	{
+		write(2, "Too many philosophers\n", 22);
+		return(0);  
+	}
 	if(!no_zero(data))
 	{
 		invalid_argument();

@@ -17,7 +17,6 @@ typedef struct s_data{
 	int must_eat;
 	_Atomic int created;
 	_Atomic int rounds;
-//	_Atomic int phils_eaten;
 	_Atomic int dead;
 	_Atomic int start;
 	_Atomic	long start_time;
@@ -29,22 +28,24 @@ typedef struct s_phil{
 	int id;
 	_Atomic long last_meal_time;
 	_Atomic int meals;
-	int round;
 	pthread_t thread;
 	pthread_mutex_t *print;
 	pthread_mutex_t *left;
 	pthread_mutex_t *right;
 	t_data *data;
 } t_phil;
-void	phil_1_die(t_phil *phil);
+
+void 	atoi_arguments(t_data *data, char **av);
+void	*phil_1_die(t_phil *phil);
 void    print_mutex(t_phil *phils, long time, char *s);
 int	ft_atoi(const char *str);
 int	save_arguments_in_struct(t_data *data, char **av);
 int		initialize_phils(t_data *data);
 void	destroy_mutexes(int i, pthread_mutex_t *forks);
 void	*routine(void *arg);
-int create_thread(t_phil *phils);
+int create_thread(t_phil *phils, int i);
 void	unlock(t_phil *phils);
+void	destroy_and_free(t_phil *phils, t_data *data, int i);
 /**
 ***		LOG FUNCTIONS
 **/
@@ -54,8 +55,9 @@ int	picking_forks(t_phil *phil, long start_time);
 int    eating(t_phil *phil, int duration);
 void    thinking(t_phil *phil);
 int    sleeping(t_phil *phil, int duration);
-int     check_dead(t_phil *phil);
-int   dead(t_phil *phil, long otime);
+//int     check_dead(t_phil *phil);
+//int   dead(t_phil *phil, long otime);
+
 /**
 ***		ERROR MSGS!!!
 **/
